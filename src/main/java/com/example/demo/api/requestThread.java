@@ -58,15 +58,16 @@ public class requestThread extends Thread{
             continue2Way = Boolean.valueOf((boolean)dataMap.get("continue2Way"));
         }
 
-//        // 응답코드가 CF-03002 이고 continue2Way 필드가 true인 경우 추가 인증 정보를 변수에 저장
-//        if (code.equals("CF-03002") && continue2Way){
-//            JOB_INDEX =  (int)dataMap.get("jobIndex");
-//            THREAD_INDEX = (int)dataMap.get("threadIndex");
-//            JTI = (String) dataMap.get("jti");
-//            TWO_WAY_TIMESTAMP = (Long)dataMap.get("twoWayTimestamp");
-//        }
+//      응답코드가 CF-03002 이고 continue2Way 필드가 true인 경우 추가 인증 정보를 변수에 저장
+        if (code.equals("CF-03002") && continue2Way){
+            int JOB_INDEX =  (int)dataMap.get("jobIndex");
+            int THREAD_INDEX = (int)dataMap.get("threadIndex");
+            String JTI = (String) dataMap.get("jti");
+            Long TWO_WAY_TIMESTAMP = (Long)dataMap.get("twoWayTimestamp");
+        }
 
         /** #8.결과값 확인 */
         System.out.println("threadNo " + threadNo + " result : " + result);
+
     }
 }

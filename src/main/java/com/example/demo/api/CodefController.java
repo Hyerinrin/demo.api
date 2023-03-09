@@ -4,21 +4,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.codef.api.EasyCodef;
 import io.codef.api.EasyCodefServiceType;
-import org.apache.commons.codec.binary.Base64;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
-public class tokenExam {
+@Controller
+public class CodefController {
 
-    public static void main(String[] args) throws UnsupportedEncodingException, JsonProcessingException, InterruptedException {
-
-/** #1.쉬운 코드에프 객체 생성 및 클라이언트 정보 설정 */
+    @GetMapping("/")
+    public String getCodef() throws UnsupportedEncodingException, JsonProcessingException, InterruptedException {
+        /** #1.쉬운 코드에프 객체 생성 및 클라이언트 정보 설정 */
         EasyCodef codef = new EasyCodef();
         codef.setClientInfoForDemo("475bbc7a-9562-46b2-b84a-29937f8570a6", "0643a2c7-8c13-469b-a9ff-e8e91b613233");
         //codef.setClientInfo(EasyCodefClientInfo.CLIENT_ID, EasyCodefClientInfo.CLIENT_SECRET);
@@ -28,7 +26,7 @@ public class tokenExam {
                 "UcLtsHSWLs8BL/UfGsV8JmGrkL0gIQZfqOz5lKgI4pXKAORACIMExxh0/IE5AMfmwDxp0f+j024I10dBIIuRy9fpI40xC4wIDAQAB");
 
 
-/** #2. 입력부 요청 파라미터 설정 - 각 상품별 파라미터를 설정(https://developer.codef.io/products) */
+        /** #2. 입력부 요청 파라미터 설정 - 각 상품별 파라미터를 설정(https://developer.codef.io/products) */
         HashMap<String, Object> parameterMap = new HashMap<String, Object>();
         parameterMap.put("organization", "0002"); // 기관코드 설정
         parameterMap.put("loginType", "5");
@@ -71,24 +69,15 @@ public class tokenExam {
         paramMap.put("simpleAuth", "1");
         paramMap.put("is2Way", true);
 
-
-        /** #7. 추가 인증을 위한 Hash*/
-        HashMap<String, Object> twoWayInfo = new HashMap<String, Object>();
-        twoWayInfo.put("jobIndex", job_index);
-        twoWayInfo.put("threadIndex", thread_index);
-        twoWayInfo.put("jti", jti);
-        twoWayInfo.put("twoWayTimestamp", twoWayTimestamp);
-
-        paramMap.put("twoWayInfo", twoWayInfo);
+        paramMap.put("twoWayInfo", (HashMap<String, Object>) responseMap.get("data"));
 
 
-
-// 추가인증 요청 시에는 이지코드에프.requestCertification 으로 호출
+        // 추가인증 요청 시에는 이지코드에프.requestCertification 으로 호출
         String re;
         re = codef.requestCertification(productUrl, EasyCodefServiceType.DEMO, paramMap);
         System.out.println("추가인증 : " + re);
 
+        return re;
     }
 }
-
 
