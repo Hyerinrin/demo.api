@@ -6,14 +6,19 @@ import io.codef.api.EasyCodef;
 import io.codef.api.EasyCodefServiceType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.UUID;
 
-@Controller
+@RestController
 public class CodefController {
 
+    /**
+     * 깃헙
+     * https://github.com/codef-io/easycodef-java
+     * */
     @GetMapping("/")
     public String getCodef() throws UnsupportedEncodingException, JsonProcessingException, InterruptedException {
         /** #1.쉬운 코드에프 객체 생성 및 클라이언트 정보 설정 */
@@ -49,18 +54,10 @@ public class CodefController {
 
         HashMap<String, Object> responseMap = new ObjectMapper().readValue(result, HashMap.class);
         HashMap<String, Object> resultMap = (HashMap<String, Object>) responseMap.get("result");
-        HashMap<String, Object> dataMap = (HashMap<String, Object>) responseMap.get("data");
-
-        int job_index = (int) dataMap.get("jobIndex");
-        int thread_index = (int) dataMap.get("threadIndex");
-        String jti = (String) dataMap.get("jti");
-        Long twoWayTimestamp = (Long) dataMap.get("twoWayTimestamp");
-
-        String ID = "testID" + UUID.randomUUID();
 
 
-        Thread.sleep(20000);
-        System.out.println("20초 경과!");
+        Thread.sleep(15000);
+        System.out.println("15초 경과!");
         /** #5.추가인증 입력부 파라미터 설정 */
         HashMap<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("organization", "0002"); //기관코드 필수 입력
