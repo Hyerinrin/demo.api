@@ -6,21 +6,22 @@ import io.codef.api.EasyCodef;
 import io.codef.api.EasyCodefServiceType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.UUID;
 
-@RestController
+//@RestController
 public class CodefController {
 
     /**
      * 깃헙
      * https://github.com/codef-io/easycodef-java
      * */
-    @GetMapping("/")
-    public String getCodef() throws UnsupportedEncodingException, JsonProcessingException, InterruptedException {
+    //@GetMapping("/")
+    //public String getCodef()
+        public static void main(String[] args) throws UnsupportedEncodingException, JsonProcessingException, InterruptedException {
         /** #1.쉬운 코드에프 객체 생성 및 클라이언트 정보 설정 */
         EasyCodef codef = new EasyCodef();
         codef.setClientInfoForDemo("475bbc7a-9562-46b2-b84a-29937f8570a6", "0643a2c7-8c13-469b-a9ff-e8e91b613233");
@@ -40,8 +41,8 @@ public class CodefController {
         parameterMap.put("phoneNo", "01040721761");
         parameterMap.put("identity", "20010328");
         parameterMap.put("inquiryType", "0");
-        parameterMap.put("searchStartYear", "2022");
-        parameterMap.put("searchEndYear", "2023");
+        parameterMap.put("searchStartYear", "2020");
+        parameterMap.put("searchEndYear", "2022");
         parameterMap.put("type", "0");
         parameterMap.put("telecom", "0");
 
@@ -56,8 +57,8 @@ public class CodefController {
         HashMap<String, Object> resultMap = (HashMap<String, Object>) responseMap.get("result");
 
 
-        Thread.sleep(15000);
-        System.out.println("15초 경과!");
+        Thread.sleep(20000);
+        System.out.println("20초 경과!");
         /** #5.추가인증 입력부 파라미터 설정 */
         HashMap<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("organization", "0002"); //기관코드 필수 입력
@@ -74,7 +75,17 @@ public class CodefController {
         re = codef.requestCertification(productUrl, EasyCodefServiceType.DEMO, paramMap);
         System.out.println("추가인증 : " + re);
 
-        return re;
+        HashMap<String, Object> dMap = new ObjectMapper().readValue(re, HashMap.class);
+        HashMap<String, Object> dataMap = (HashMap<String, Object>) dMap.get("data");
+        System.out.println(dataMap);
+
+        System.out.println("키 있음?"+ dataMap.containsKey("resPreviewList"));
+        //HashMap<String, Object> reMap = (HashMap<String, Object>) dataMap.get("resPreviewList");
+
+          //  System.out.println("reMap : "+ reMap);
+        //return re;
+
+
     }
 }
 
